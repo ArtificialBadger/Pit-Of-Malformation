@@ -19,11 +19,15 @@ namespace FleetingCanvas.Canvas
     public partial class Canvas
     {
 
-        private string imagePath;
+        private string? imagePath;
 
-        public void DoThing(string imagePath)
+        private void SetImagePath()
         {
-            using Image image = Image.Load(imagePath);
+            if (!String.IsNullOrWhiteSpace(imagePath))
+            {
+                //using Image image = Image.Load(this.imagePath);
+                "".ToString();
+            }
         }
     }
 }
