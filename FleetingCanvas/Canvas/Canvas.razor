@@ -4,8 +4,24 @@
 
 <h1>Canvas</h1>
 
+<InputFile OnChange="@LoadFile" />
+
+<hr/>
+
+@if (imageSource is not null)
+{
+    <p>
+        <img src="@imageSource" />
+    </p>
+}
+
+<hr />
+
+
 <input @bind="imagePath"/>
 
 <button class="btn btn-primary" @onclick="SetImagePath">Set Image Path</button>
 
-<p>@imagePath</p>
+<p>Path: @imagePath</p>
+<p>Source: @imageSource</p>
+

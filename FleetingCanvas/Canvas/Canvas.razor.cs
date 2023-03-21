@@ -18,15 +18,22 @@ namespace FleetingCanvas.Canvas
 {
     public partial class Canvas
     {
-
+        private string? imageSource;
         private string? imagePath;
+
+        private async Task LoadFile(InputFileChangeEventArgs e)
+        {
+            var buffer = new byte[e.File.Size];
+            await e.File.OpenReadStream(maxAllowedSize: 10000000).ReadAsync(buffer);
+
+            imageSource = $"data:image/png;base64, {Convert.ToBase64String(buffer)}";
+        }
 
         private void SetImagePath()
         {
             if (!String.IsNullOrWhiteSpace(imagePath))
             {
                 //using Image image = Image.Load(this.imagePath);
-                "".ToString();
             }
         }
     }
