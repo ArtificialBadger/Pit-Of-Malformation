@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Components.WebAssembly.Http;
 using Microsoft.JSInterop;
 using FleetingCanvas;
 using FleetingCanvas.Shared;
+using SixLabors.ImageSharp.Formats.Png;
+using SixLabors.ImageSharp.Formats.Jpeg;
 
 namespace FleetingCanvas.Canvas
 {
@@ -23,10 +25,18 @@ namespace FleetingCanvas.Canvas
 
         private async Task LoadFile(InputFileChangeEventArgs e)
         {
-            var buffer = new byte[e.File.Size];
-            await e.File.OpenReadStream(maxAllowedSize: 10000000).ReadAsync(buffer);
+            //var buffer = new byte[e.File.Size];
+            //await e.File.OpenReadStream(maxAllowedSize: 10000000).ReadAsync(buffer);
 
-            imageSource = $"data:image/png;base64, {Convert.ToBase64String(buffer)}";
+            using var image = await Image.LoadAsync(e.File.OpenReadStream(maxAllowedSize: 10000000));
+
+            int width = 100;
+            int height = 100;
+            image.Mutate(x => x.Resize(width, height));
+
+            var raw = image.ToBase64String(PngFormat.Instance);
+
+            imageSource = raw; // $"data:image/png;base64, {raw}";
         }
 
         private void SetImagePath()
