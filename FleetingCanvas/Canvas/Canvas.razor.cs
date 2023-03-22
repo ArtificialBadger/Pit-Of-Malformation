@@ -21,7 +21,6 @@ namespace FleetingCanvas.Canvas
     public partial class Canvas
     {
         private string? imageSource;
-        private string? imagePath;
 
         private async Task LoadFile(InputFileChangeEventArgs e)
         {
@@ -36,15 +35,7 @@ namespace FleetingCanvas.Canvas
 
             var raw = image.ToBase64String(PngFormat.Instance);
 
-            imageSource = raw; // $"data:image/png;base64, {raw}";
-        }
-
-        private void SetImagePath()
-        {
-            if (!String.IsNullOrWhiteSpace(imagePath))
-            {
-                //using Image image = Image.Load(this.imagePath);
-            }
+            imageSource = raw;
         }
     }
 }
