@@ -1,4 +1,5 @@
 ﻿using Bilmuri.Events;
+using Bilmuri.TournamentEntrants;
 using System;
 using System.Collections.Generic;
 using System.Linq;

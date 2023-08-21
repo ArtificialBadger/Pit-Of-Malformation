@@ -1,0 +1,50 @@
+﻿@page "/goals"
+@using Avotion.Shared
+@using Avotion.Shared.Goals;
+@inject HttpClient Http
+
+<PageTitle>Goal Overview</PageTitle>
+
+<h1>Goal Overview</h1>
+
+<p>Display daily goals</p>
+
+@if (!goals.Any())
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Key</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Id</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var goal in goals)
+            {
+                <tr>
+                    <td>@goal.Key</td>
+                    <td>@goal.Name</td>
+                    <td>@goal.Description</td>
+                    <td>@goal.Id</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Goal> goals = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        goals.Add(new Goal() { Id = Guid.Parse("91fe92f2-1f9b-49a7-b094-dd921a4779ab"), Name = "Work on Avotion", Description = "Work on this app, improving tracking of daily activities.", Key = "AVO" });
+
+        // forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
+    }
+}

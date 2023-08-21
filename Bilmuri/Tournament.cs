@@ -21,11 +21,15 @@ public sealed class Tournament
 
 	public Task RunNextRound()
 	{
+		//TODO: What was going on here?
+		
 		var currentEvent = Events[currentRound];
 
-		var mediator = 
+		//var mediator = 
 
 		currentRound++;
+
+		return Task.CompletedTask;
 	}
 
 
