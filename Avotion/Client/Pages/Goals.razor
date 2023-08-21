@@ -1,6 +1,7 @@
 ﻿@page "/goals"
 @using Avotion.Shared
 @using Avotion.Shared.Goals;
+@using System.ComponentModel.DataAnnotations;
 @inject HttpClient Http
 
 <PageTitle>Goal Overview</PageTitle>
@@ -34,17 +35,86 @@ else
                     <td>@goal.Id</td>
                 </tr>
             }
+            <tr>
+                <td><InputText maxlength="10" placeholder="KEY" @bind-Value="newGoalKey" /></td>
+                <td><InputText placeholder="Goal Name" @bind-Value="newGoalName" /></td>
+                <td><InputText placeholder="Description" @bind-Value="newGoalDescription" /></td>
+                <td><button @onclick="SaveNewGoal">Save Goal</button></td>
+            </tr>
+            @if (invalidGoal)
+            {
+                <tr>
+                    <td colspan="4"><em>Invalid Goal - @invalidGoalReasonText</em></td>
+                </tr>
+            }
         </tbody>
+
     </table>
 }
 
 @code {
     private List<Goal> goals = new();
 
+    private bool invalidGoal = false;
+
+    private string invalidGoalReasonText = String.Empty;
+
+    private string newGoalKey { get; set; } = String.Empty;
+    private string newGoalName { get; set; } = String.Empty;
+    private string newGoalDescription { get; set; } = String.Empty;
+
     protected override async Task OnInitializedAsync()
     {
         goals.Add(new Goal() { Id = Guid.Parse("91fe92f2-1f9b-49a7-b094-dd921a4779ab"), Name = "Work on Avotion", Description = "Work on this app, improving tracking of daily activities.", Key = "AVO" });
 
         // forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
+    }
+
+    private void CheckForInvalidGoal()
+    {
+        List<string> reasons = new();
+
+        if (String.IsNullOrWhiteSpace(newGoalKey))
+        {
+            reasons.Add("Key is required.");
+        }
+
+        if (String.IsNullOrWhiteSpace(newGoalName))
+        {
+            reasons.Add("Name is required.");
+        }
+
+        if (String.IsNullOrWhiteSpace(newGoalDescription))
+        {
+            reasons.Add("Description is required.");
+        }
+
+        if (goals.Any(g => g.Key == newGoalKey))
+        {
+            reasons.Add("Key must be unique.");
+        }
+
+        if (reasons.Any())
+        {
+            this.invalidGoalReasonText = String.Join(", ", reasons);
+            invalidGoal = true;
+        }
+        else
+        {
+            invalidGoal = false;
+        }
+    }
+
+    private void SaveNewGoal()
+    {
+        CheckForInvalidGoal();
+        if (invalidGoal)
+        {
+            return;
+        }
+
+        goals.Add(new Goal() { Id = Guid.NewGuid(), Name = newGoalName, Description = newGoalDescription, Key = newGoalKey });
+        (newGoalKey, newGoalName, newGoalDescription) = (String.Empty, String.Empty, String.Empty);
+        invalidGoal = false;
     }
 }
