@@ -5,9 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Avotion.Shared.Goals;
-public sealed record DailyGoal
-{
-	public required string Key { get; init; }
 
-	public required GoalStatus Status { get; init; }
+public sealed class Day
+{
+    public DateOnly Date { get; init; }
+
+    public IList<DailyGoal> Goals { get; set; } = new List<DailyGoal>();
 }
