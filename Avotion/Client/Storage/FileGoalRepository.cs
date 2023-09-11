@@ -5,13 +5,16 @@ namespace Avotion.Client.Storage;
 
 public class FileGoalRepository : IGoalRepository
 {
+    private string Path = "goals.json";
+
     public Task SaveDay(Day day)
     {
         throw new NotImplementedException();
     }
 
-    public Task SaveGoals(IEnumerable<Goal> Goals)
+    public async Task SaveGoals(IEnumerable<Goal> Goals)
     {
-        throw new NotImplementedException();
+        using var file = File.Create("./avotion.test");
+        await Task.Delay(100);
     }
 }

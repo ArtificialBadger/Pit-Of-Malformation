@@ -1,8 +1,10 @@
 ﻿@page "/goals"
+@using Avotion.Client.Storage;
 @using Avotion.Shared
 @using Avotion.Shared.Goals;
 @using System.ComponentModel.DataAnnotations;
 @inject HttpClient Http
+@inject IGoalRepository goalRepository
 
 <PageTitle>Goal Overview</PageTitle>
 
@@ -65,6 +67,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        await Task.Delay(0);
         goals.Add(new Goal() { Id = Guid.Parse("91fe92f2-1f9b-49a7-b094-dd921a4779ab"), Name = "Work on Avotion", Description = "Work on this app, improving tracking of daily activities.", Key = "AVO" });
 
         // forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
