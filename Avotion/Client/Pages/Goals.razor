@@ -69,8 +69,6 @@ else
     {
         await Task.Delay(0);
         goals.Add(new Goal() { Id = Guid.Parse("91fe92f2-1f9b-49a7-b094-dd921a4779ab"), Name = "Work on Avotion", Description = "Work on this app, improving tracking of daily activities.", Key = "AVO" });
-
-        // forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
     }
 
     private void CheckForInvalidGoal()
@@ -108,7 +106,7 @@ else
         }
     }
 
-    private void SaveNewGoal()
+    private async Task SaveNewGoal()
     {
         CheckForInvalidGoal();
         if (invalidGoal)
@@ -117,6 +115,7 @@ else
         }
 
         goals.Add(new Goal() { Id = Guid.NewGuid(), Name = newGoalName, Description = newGoalDescription, Key = newGoalKey });
+        await this.goalRepository.SaveGoals(goals);
         (newGoalKey, newGoalName, newGoalDescription) = (String.Empty, String.Empty, String.Empty);
         invalidGoal = false;
     }
