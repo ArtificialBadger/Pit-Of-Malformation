@@ -13,4 +13,8 @@ var entrants = new List<GenericTournamentEntrant>
 	new GenericTournamentEntrant(Guid.Parse("8c7af471-d060-43d8-a539-3b9f1616204f"), "Armando the Stronk", "Big and Stronk", 10),
 };
 
+var a = "test";
+var b = a;
+a = b;
+
 

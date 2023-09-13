@@ -13,10 +13,9 @@ public class FileGoalRepository : IGoalRepository
 
     public async Task SaveGoals(IEnumerable<Goal> Goals)
     {
-        var parentDir = Directory.GetParent(".");
-        using var file = File.Create("../.././avotion.test");
-        Debug.WriteLine(file.Name);
-        Debug.WriteLine(parentDir);
+        var parentDir = Directory.GetCurrentDirectory();
+        var directories = Directory.EnumerateDirectories(parentDir).ToList();
+        using var file = File.Create("./avotion.test");
         await Task.Delay(100);
     }
 }
